@@ -1,4 +1,5 @@
 import jieba
+import pkuseg
 import numpy as np
 import pickle
 import pathlib
@@ -107,7 +108,8 @@ class Sentiment(object):
         length, sentences, pos, neg = 0, 0, 0, 0
         sentences = [s for s in re.split('[\.。！!？\?\n;；]+', text) if s]
         sentences = len(sentences)
-        words = jieba.lcut(text)
+        seg = pkuseg.pkuseg()    
+        words = seg.cut(text)
         length = len(words)
         for w in words:
             if w in self.Poss:

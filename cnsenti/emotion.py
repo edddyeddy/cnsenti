@@ -1,4 +1,5 @@
-import jieba
+# import jieba
+import pkuseg
 import pickle
 import pathlib
 import re
@@ -39,7 +40,8 @@ class Emotion(object):
         """
         wordnum, sentences, hao, le, ai, nu, ju, wu, jing =0, 0, 0, 0, 0, 0, 0, 0, 0
         sentences = len(re.split('[\.。！!？\?\n;；]+', text))
-        words = jieba.lcut(text)
+        seg = pkuseg.pkuseg()    
+        words = seg.cut(text)
         wordnum = len(words)
         for w in words:
             if w in self.Haos:
