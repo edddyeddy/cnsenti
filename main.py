@@ -2,9 +2,13 @@ from cnsenti import *
 
 def main():
     senti = Sentiment()
-    test_text= '我好开心啊，非常非常非常高兴！今天我得了一百分，我很兴奋开心，愉快，开心'
-    result = senti.sentiment_count(test_text)
-    print(result)
+    emotion = Emotion()
+    with open("test.txt","r") as f:
+        test_text = f.read() 
+        sentiResult = senti.sentiment_count(test_text)
+        emotionResult = emotion.emotion_count(test_text)
+        print(sentiResult)
+        print(emotionResult)
 
 if __name__ == "__main__":
     main()

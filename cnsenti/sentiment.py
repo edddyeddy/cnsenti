@@ -117,8 +117,7 @@ class Sentiment(object):
         :return: 返回情感信息，形如{'sentences': 2, 'words': 24, 'pos': 46.0, 'neg': 0.0}
         """
         length, sentences, pos, neg = 0, 0, 0, 0
-        sentences = [s for s in re.split('[\.。！!？\?\n;；]+', text) if s]
-        sentences = len(sentences)
+        sentences = len(re.split('[\.。！!？\?\n;；]+', text))
         seg = pkuseg.pkuseg()    
         words = seg.cut(text)
         length = self.getWordsCntWithoutPunctuation(words)
