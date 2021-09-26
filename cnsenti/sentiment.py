@@ -4,6 +4,8 @@ import numpy as np
 import pickle
 import pathlib
 import re
+import string
+import zhon.hanzi
 
 
 class Sentiment(object):
@@ -74,6 +76,15 @@ class Sentiment(object):
         self.Verys = self.load_dict('very.pkl')
         self.Mores = self.load_dict('more.pkl')
         self.Ishs = self.load_dict('ish.pkl')
+    
+    def getWordsCntWithoutPunctuation(self,words):
+
+        def notPunchtuation(word):
+            return not (word in string.punctuation ) and not(word in zhon.hanzi.punctuation)
+
+        filtered = filter(notPunchtuation,words)
+
+        return sum(1 for _ in filtered)
 
     def load_dict(self, file):
         """
@@ -110,7 +121,7 @@ class Sentiment(object):
         sentences = len(sentences)
         seg = pkuseg.pkuseg()    
         words = seg.cut(text)
-        length = len(words)
+        length = self.getWordsCntWithoutPunctuation(words)
         for w in words:
             if w in self.Poss:
                 pos+=1

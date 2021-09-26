@@ -3,6 +3,8 @@ import pkuseg
 import pickle
 import pathlib
 import re
+import string
+import zhon.hanzi
 
 class Emotion(object):
     """
@@ -25,6 +27,15 @@ class Emotion(object):
         self.Wus = self.read_dict('恶.pkl')
         self.Jings = self.read_dict('惊.pkl')
 
+    def getWordsCntWithoutPunctuation(self,words):
+
+        def notPunchtuation(word):
+            return not (word in string.punctuation ) and not(word in zhon.hanzi.punctuation)
+
+        filtered = filter(notPunchtuation,words)
+
+        return sum(1 for _ in filtered)
+
     def read_dict(self, file):
         pathchain = ['dictionary', 'dutir',file]
         mood_dict_filepath = pathlib.Path(__file__).parent.joinpath(*pathchain)
@@ -42,7 +53,7 @@ class Emotion(object):
         sentences = len(re.split('[\.。！!？\?\n;；]+', text))
         seg = pkuseg.pkuseg()    
         words = seg.cut(text)
-        wordnum = len(words)
+        wordnum = self.getWordsCntWithoutPunctuation(words)
         for w in words:
             if w in self.Haos:
                 hao += 1
